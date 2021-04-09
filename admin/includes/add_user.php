@@ -11,14 +11,13 @@
         $user_email = $_POST['user_email'];
         $user_password = $_POST['user_password'];
         $user_date = date('d-m-y');
-        $randsalt = "xxx";
         
         //function to move image to temporary location
         move_uploaded_file($user_image_temp, "../images/user_images/$user_image");
         
-        $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, user_image, user_email, user_password, user_date, randsalt )";
+        $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, user_image, user_email, user_password, user_date )";
         
-        $query .= "VALUES('{$user_firstname}', '{$user_lastname}', '{$user_role}', '{$username}', '{$user_image}', '{$user_email}', '{$user_password}', now(), '{$randsalt}' )";
+        $query .= "VALUES('{$user_firstname}', '{$user_lastname}', '{$user_role}', '{$username}', '{$user_image}', '{$user_email}', '{$user_password}', now())";
         
         $create_user_query = mysqli_query($connection, $query);
         confirmQuery($create_user_query);

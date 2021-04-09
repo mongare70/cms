@@ -37,6 +37,16 @@
         
         //function to move image to temporary location
         move_uploaded_file($user_image_temp, "../images/user_images/$user_image");
+		
+		$query = "SELECT randsalt FROM users";
+		$select_randsalt_query = mysqli_query($connection, $query);
+		if(!$select_randsalt_query){
+			die("Query Failed!" . mysqli_error($connection));
+		}
+		
+		$row = mysqli_fetch_array($select_randsalt_query);
+		$salt = $row['randsalt'];
+		$hashed_password = crypt($user_password, $salt);
         
         $query = "UPDATE users SET ";
         $query .= "user_firstname = '{$user_firstname}', ";
@@ -44,7 +54,7 @@
         $query .= "user_role = '{$user_role}', ";
         $query .= "username = '{$username}', ";
         $query .= "user_email = '{$user_email}', ";
-        $query .= "user_password = '{$user_password}', ";
+        $query .= "user_password = '{$hashed_password}', ";
         $query .= "user_date = now(), ";
         $query .= "user_image = '{$user_image}' ";
         $query .= "WHERE user_id = {$the_user_id} ";
@@ -67,7 +77,7 @@
     <br>
     <div class="form-group">
         <select name="user_role" id="user_role">
-            <option value="subscriber"><?php echo $role?></option>
+            <option value="<?php echo $role?>"><?php echo $role?></option>
             <?php 
                 if($role == 'admin'){
                     echo "<option value='subscriber'>subscriber</option>";
