@@ -2,6 +2,7 @@
 
     <div id="wrapper">
 
+       
         <!-- Navigation -->
          <?php include "includes/admin_navigation.php"; ?>
           
@@ -16,6 +17,8 @@
                         <h1 class="page-header">
                             Welcome to Admin
                             <small><?php echo $_SESSION['username']; ?></small>
+                          
+                            
                         </h1>
                         
                     </div>
