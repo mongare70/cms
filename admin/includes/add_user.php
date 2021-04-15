@@ -15,7 +15,11 @@
         //function to move image to temporary location
         move_uploaded_file($user_image_temp, "../images/user_images/$user_image");
         
-        $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, user_image, user_email, user_password, user_date )";
+        //Encrypting Password
+		$user_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost'=> 10));
+		
+		
+		$query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, user_image, user_email, user_password, user_date )";
         
         $query .= "VALUES('{$user_firstname}', '{$user_lastname}', '{$user_role}', '{$username}', '{$user_image}', '{$user_email}', '{$user_password}', now())";
         
