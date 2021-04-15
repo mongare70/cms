@@ -11,7 +11,7 @@
         $post_tags = $_POST['post_tags'];
         $post_content = $_POST['post_content'];
         $post_date = date('d-m-y');
-        $post_comment_count = 0;
+        $post_comment_count = "";
         
         //function to move image to temporary location
         move_uploaded_file($post_image_temp, "../images/$post_image");
