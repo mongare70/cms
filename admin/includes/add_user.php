@@ -1,16 +1,16 @@
 <?php 
     if(isset($_POST['create_user'])){
-        $user_firstname = $_POST['user_firstname'];
-        $user_lastname = $_POST['user_lastname'];
-        $user_role = $_POST['user_role'];
-        $username = $_POST['username'];
+        $user_firstname = escape($_POST['user_firstname']);
+        $user_lastname = escape($_POST['user_lastname']);
+        $user_role = escape($_POST['user_role']);
+        $username = escape($_POST['username']);
         
-        $user_image = $_FILES['image']['name'];
-        $user_image_temp = $_FILES['image']['tmp_name'];
+        $user_image = escape($_FILES['image']['name']);
+        $user_image_temp = escape($_FILES['image']['tmp_name']);
         
-        $user_email = $_POST['user_email'];
-        $user_password = $_POST['user_password'];
-        $user_date = date('d-m-y');
+        $user_email = escape($_POST['user_email']);
+        $user_password = escape($_POST['user_password']);
+        $user_date = escape(date('d-m-y'));
         
         //function to move image to temporary location
         move_uploaded_file($user_image_temp, "../images/user_images/$user_image");
