@@ -1,5 +1,12 @@
 <!-- output buffering -->
 <?php ob_start(); ?>
+<?php 
+	session_start();
+	if(empty($_SESSION['user_role']) || $_SESSION['user_role'] == ''){
+		header("Location: ../index.php");
+    	die();
+	}
+?>
 
 <?php include "functions.php"; ?>
 <?php include "../includes/db.php"; ?>

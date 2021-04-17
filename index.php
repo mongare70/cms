@@ -29,9 +29,13 @@
 					}
 				
 					//Post Count Query
-					$post_query_count = "SELECT * FROM posts";
+					$post_query_count = "SELECT * FROM posts WHERE post_status ='published'";
 					$find_count = mysqli_query($connection, $post_query_count);
 					$count = mysqli_num_rows($find_count);
+				
+					if($count < 1){
+						echo "<h1 style='text-align: center;'>NO POSTS<h1>";
+					} else{
 					
 					$count = ceil($count/5);
 					
@@ -47,7 +51,6 @@
                         $post_content = substr($row['post_content'], 0, 100);
                         $post_status = $row['post_status'];
                         
-                        if($post_status == 'published'){
                         ?>
                         
                         

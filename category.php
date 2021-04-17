@@ -14,10 +14,14 @@
                 
                     if(isset($_GET['category'])){
                         $post_category_id = $_GET['category'];
-                    }
+                    
                 
-                    $query = "SELECT * FROM posts WHERE post_category_id = {$post_category_id}"; 
+                    $query = "SELECT * FROM posts WHERE post_category_id = {$post_category_id} AND post_status = 'published'"; 
                     $posts = mysqli_query($connection, $query);
+						
+					if(mysqli_num_rows($posts) < 1){
+						echo "<h1 style='text-align: center;'>No Categories Available</h1>";
+					} else {
                     
                     while($row = mysqli_fetch_assoc($posts)){
                         $post_id = $row['post_id'];
@@ -52,7 +56,11 @@
                         
                         
                 <?php     
-                    }
+						}	 
+					} 
+				}	else {
+						header("Location: index.php");
+					}
                 ?>
 
 
