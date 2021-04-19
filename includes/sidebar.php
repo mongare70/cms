@@ -18,19 +18,33 @@
                 <br>
                 <!-- Login -->
                 <div class="well">
-                    <h4>Login</h4>
-                    <form action="includes/login.php" method="post">
-                    <div class="form-group">
-                        <input name="username" type="text" class="form-control" placeholder="Enter Username">
-                    </div>
-                    <div class="input-group">
-                        <input name="password" type="password" class="form-control" placeholder="Enter Password">
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary" name="login" type="submit">Submit</button>
-                        </span>
-                    </div>
-                    </form> <!-- Search Form -->
-                    <!-- /.input-group -->
+<!--                   shorthand version of if statement-->
+                  	<?php session_start(); if(isset($_SESSION['user_role'])){ ?>
+                  	
+                  	<h4>Logged in as <?php echo $_SESSION['username']; ?></h4>
+                  	
+                  	<a href="includes/logout.php" class="btn btn-primary">Log Out</a>
+                  	
+                   	<?php } else{ ?>
+                   	
+                   	
+						<h4>Login</h4>
+						<form action="includes/login.php" method="post">
+						<div class="form-group">
+							<input name="username" type="text" class="form-control" placeholder="Enter Username">
+						</div>
+						<div class="input-group">
+							<input name="password" type="password" class="form-control" placeholder="Enter Password">
+							<span class="input-group-btn">
+								<button class="btn btn-primary" name="login" type="submit">Submit</button>
+							</span>
+						</div>
+						</form> <!-- Search Form -->
+						<!-- /.input-group -->
+                   	
+                   	
+                   	<?php }?>
+                   
                 </div>
 
                 <!-- Blog Categories Well -->

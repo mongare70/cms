@@ -10,7 +10,6 @@
 
 <?php include "functions.php"; ?>
 <?php include "../includes/db.php"; ?>
-<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en">

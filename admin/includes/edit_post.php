@@ -73,6 +73,7 @@
     </div>
     <br>
     <div class="form-group">
+       <label for="post_category">Post Category:</label>
         <select name="post_category" id="post_category">
             <?php
                 $query = "SELECT * FROM categories";
@@ -122,6 +123,7 @@
     <br>
     
     <div class="form-group">
+       <label for="post_status">Post Status:</label>
         <select name="post_status" id="post_status">
             <option value='<?php echo $post_status; ?>'><?php echo $post_status; ?></option>
             <?php 

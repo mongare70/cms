@@ -1,12 +1,4 @@
- <?php 
-	if(isset($_GET['logout'])){
-		session_destroy();
-		header("Location: ../index.php");		
-	}
-	?>     
-           
-           
- <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -43,7 +35,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="?logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="../includes/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
