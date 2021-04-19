@@ -1,5 +1,32 @@
 <?php
     
+	function checkStatus($table, $column, $status){
+		global $connection;
+		$query = "SELECT * FROM $table WHERE $column = '{$status}'";
+        $select_all = mysqli_query($connection, $query);
+		return mysqli_num_rows($select_all);
+	}
+
+	function checkUserRole($table, $column, $role){
+		global $connection;
+		$query = "SELECT * FROM $table WHERE $column = '{$role}'";
+        $select_all = mysqli_query($connection, $query);
+		return mysqli_num_rows($select_all);
+	}
+
+
+	
+	function recordCount($table){
+		global $connection;
+		$query = "SELECT * FROM " . $table;
+        $select_all = mysqli_query($connection, $query);
+		$result = mysqli_num_rows($select_all);
+		
+		confirmQuery($result);
+		return $result;
+	}
+
+	
 	//function to escape string
 	function escape($string){
 		global $connection;
