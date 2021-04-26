@@ -84,19 +84,32 @@
     }
 
     function insert_categories() {
-        if(isset($_POST['submit'])){
+        
+		if(isset($_POST['submit'])){
+			
             global $connection;
-            $cat_title = $_POST['cat_title'];
-            if($cat_title == "" || empty($cat_title)){
-                echo "This field should not be empty";
-            } else {
-                $query = "INSERT INTO categories(cat_title) VALUES('{$cat_title}')";
-                $create_category_query = mysqli_query($connection, $query);
+            
+			$cat_title = $_POST['cat_title'];
+            
+			if($cat_title == "" || empty($cat_title)){
+               
+				echo "This field should not be empty";
+            
+			} else {
+				
+				//Using prepared statement
+				$stmt = mysqli_prepare($connection, "INSERT INTO categories(cat_title) VALUES(?) ");
+				
+				//s = string
+				mysqli_stmt_bind_param($stmt, 's', $cat_title);
+				
+				mysqli_stmt_execute($stmt);
 
-                if(!$create_category_query){
-                    die("Query Failed" . mysqli_error($connection));
-                }
-            }
+                confirmQuery($stmt);
+				
+				mysqli_stmt_close($stmt);
+            
+			}
         }
     }
     
@@ -130,6 +143,10 @@
 	//Check if logged in user is an admin
 	function is_admin($username=''){
 		global $connection;
+		
+		if($username == null){
+			return false;
+		}
 		
 		$query = "SELECT user_role FROM users WHERE username = '{$username}' ";
 		$result = mysqli_query($connection, $query);
