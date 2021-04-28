@@ -12,7 +12,11 @@
 
     
     $connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-    if(!$connection){
-        die("Database Connection Failed!");
-    }
+    
+	$query = "SET NAMES utf8";
+	mysqli_query($connection, $query);
+
+//	if(!$connection){
+//        die("Database Connection Failed!");
+//    }
 ?>

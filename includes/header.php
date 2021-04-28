@@ -2,6 +2,7 @@
 <?php ob_start(); ?>
 
 <?php include "db.php"; ?>
+<?php include "./admin/functions.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">

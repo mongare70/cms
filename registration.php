@@ -1,6 +1,4 @@
 <?php  include "includes/header.php"; ?>
-<?php include "./admin/functions.php"; ?>
-
 	
 	<?php
 		if($_SERVER['REQUEST_METHOD'] == "POST"){

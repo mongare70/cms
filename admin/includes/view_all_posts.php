@@ -89,7 +89,9 @@
      </thead>
      <tbody>
         <?php
-            $query = "SELECT * FROM posts ORDER BY post_id DESC";
+		 	$user = current_user();
+		 
+            $query = "SELECT * FROM posts WHERE post_user='$user' ORDER BY post_id DESC";
             $posts = mysqli_query($connection, $query);
 
             while($row = mysqli_fetch_assoc($posts)){

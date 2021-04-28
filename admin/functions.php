@@ -1,5 +1,20 @@
 <?php
     
+	function image_placeholder($image=null) {
+		
+		if(!$image){
+			
+			return "image_4.jpg";
+			
+		} else {
+			
+			return $image;	
+			
+		}
+ 		 
+	}
+
+
 	function checkStatus($table, $column, $status){
 		global $connection;
 		$query = "SELECT * FROM $table WHERE $column = '{$status}'";
@@ -139,6 +154,18 @@
             header("Location: categories.php"); //Function to refresh the page
         }
     }
+
+	function current_user(){
+		if(isset($_SESSION['username'])){
+			
+			return $_SESSION['username'];
+			
+		}
+		
+		return false;
+	}
+
+	
 	
 	//Check if logged in user is an admin
 	function is_admin($username=''){
@@ -192,7 +219,45 @@
 	
 	//Function to redirect to a specified page
 	function redirect($location){
+		
 		return header("Location:" . $location);
+		exit;
+	}
+
+
+	function ifItIsMethod($method=null){
+		
+		if($_SERVER['REQUEST_METHOD'] == strtoupper($method)){
+			
+			return true;
+		
+		}
+		
+		return false;
+	
+	}
+
+
+	function isLoggedIn(){
+		session_start();
+		if(isset($_SESSION['user_role'])){
+			
+			return true;
+			
+		}
+		session_destroy();
+		return false;
+		
+	}
+
+	function checkIfUserIsLoggedInAndRedirect($redirectLocation = null){
+		
+		if(isLoggedIn()){
+			
+			redirect($redirectLocation);
+			
+		}
+		
 	}
 
 
@@ -250,25 +315,30 @@
             $db_user_firstname = $row['user_firstname'];
             $db_user_lastname = $row['user_lastname'];
             $db_user_role = $row['user_role'];
-            
-        }
-		
-		//$password = crypt($password, $db_user_password);
-        
-        if(password_verify($password, $db_user_password)){
 			
-			session_start();
+			
+			//$password = crypt($password, $db_user_password);
+        
+			if(password_verify($password, $db_user_password)){
+
+				session_start();
+
+				$_SESSION['username'] = $db_username;
+				$_SESSION['firstname'] = $db_user_firstname;
+				$_SESSION['lastname'] = $db_user_lastname;
+				$_SESSION['user_role'] = $db_user_role;
+
+				redirect("/cms/admin");
+			}
+			
+			else {
+				
+				return false;
+			
+			}
             
-            $_SESSION['username'] = $db_username;
-            $_SESSION['firstname'] = $db_user_firstname;
-            $_SESSION['lastname'] = $db_user_lastname;
-            $_SESSION['user_role'] = $db_user_role;
-            
-            redirect("/cms/admin");
-        }
-        else {
-            redirect("/cms/index.php");
-        }
+        }	
+		
 	}
 	
 
