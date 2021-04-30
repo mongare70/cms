@@ -51,7 +51,7 @@
                     	</li>
                     	
                     	<li>
-							<a href="includes/logout.php" class="btn btn-primary">Log Out</a>
+							<a href="/cms/includes/logout.php" class="btn btn-primary">Log Out</a>
                     	</li>
                     	
                     <?php else: ?>

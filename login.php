@@ -1,5 +1,6 @@
 <?php  include "includes/header.php"; ?>
 
+
 <?php
 
 		checkIfUserIsLoggedInAndRedirect('/cms/admin');
@@ -8,7 +9,7 @@
 		if(ifItIsMethod('post')){
 
 			if(isset($_POST['username']) && isset($_POST['password'])){
-
+				
 				login_user($_POST['username'], $_POST['password']);
 
 
@@ -19,6 +20,10 @@
 			}
 
 		}
+
+
+
+
 
 
 ?>

@@ -1,5 +1,58 @@
 <?php
-    
+	
+	//Query function
+	function query($query){
+		global $connection;
+		return mysqli_query($connection, $query);
+	}
+	
+	//function to check whether query failed or not
+	function confirmQuery($result) {
+        global $connection;
+        if(!$result){
+            die("Query failed!" . " " . mysqli_error($connection));
+        }
+    }
+	
+
+	//Function to check if a user has logged in
+	function isLoggedIn(){
+		session_start();
+		if(isset($_SESSION['user_role'])){
+			
+			session_abort();
+			return true;
+			
+		}
+		session_destroy();
+		return false;
+		
+	}
+
+	
+	//function that returns the ID of a logged in user
+	function loggedInUserId(){
+		
+		if(isLoggedIn()){
+        $result = query("SELECT * FROM users WHERE username='" . $_SESSION['username'] ."'");
+        //confirmQuery($result);
+        $user = mysqli_fetch_array($result);
+        return mysqli_num_rows($result) >= 1 ? $user['user_id'] : false;
+    }
+    return false;
+		
+	}
+
+	
+	function userLikedThisPost($post_id){
+		
+		$result = query("SELECT * FROM likes WHERE user_id=" .loggedInUserId() . " AND post_id={$post_id}");
+    	//confirmQuery($result);
+    	return mysqli_num_rows($result) >= 1 ? true : false;
+	
+	}
+
+
 	function image_placeholder($image=null) {
 		
 		if(!$image){
@@ -12,6 +65,16 @@
 			
 		}
  		 
+	}
+
+	function getPostLikes($post_id){
+		
+		$result = query("SELECT * FROM  likes WHERE post_id = {$post_id}");
+		
+		confirmQuery($result);
+		
+		echo mysqli_num_rows($result);
+		
 	}
 
 
@@ -90,13 +153,6 @@
 
 	users_online();
 
-	
-    function confirmQuery($result) {
-        global $connection;
-        if(!$result){
-            die("Query failed!" . " " . mysqli_error($connection));
-        }
-    }
 
     function insert_categories() {
         
@@ -238,17 +294,6 @@
 	}
 
 
-	function isLoggedIn(){
-		session_start();
-		if(isset($_SESSION['user_role'])){
-			
-			return true;
-			
-		}
-		session_destroy();
-		return false;
-		
-	}
 
 	function checkIfUserIsLoggedInAndRedirect($redirectLocation = null){
 		
@@ -298,15 +343,18 @@
 	function login_user($username, $password){
 		global $connection;
 		
+		//Remove whitespace
+		$username = trim($username);
+     	$password = trim($password);
+		
 		//Prevents SQL injection
-        $username = trim(mysqli_real_escape_string($connection, $username));
-        $password = trim(mysqli_real_escape_string($connection, $password));
+        $username = mysqli_real_escape_string($connection, $username);
+        $password = mysqli_real_escape_string($connection, $password);
         
         $query = "SELECT * FROM users WHERE username = '{$username}' ";
         $select_user_query = mysqli_query($connection, $query);
-        if(!$select_user_query){
-            die("Query Failed!" . " " . mysqli_error($connection));
-        }
+        
+		confirmQuery($select_user_query);
         
         while($row = mysqli_fetch_array($select_user_query)){
             $db_user_id = $row['user_id'];
@@ -337,7 +385,9 @@
 			
 			}
             
-        }	
+        }
+		
+		return true;
 		
 	}
 	
