@@ -1,9 +1,13 @@
 <?php
+
+    //===== DATABASE HELPER FUNCTIONS =====//
 	
 	//Query function
 	function query($query){
 		global $connection;
-		return mysqli_query($connection, $query);
+		$result = mysqli_query($connection, $query);
+		confirmQuery($result);
+		return $result;
 	}
 	
 	//function to check whether query failed or not
@@ -13,24 +17,72 @@
             die("Query failed!" . " " . mysqli_error($connection));
         }
     }
-	
+
+    //function to fetch rows in DB
+    function fetchRecords($result){
+
+	    return mysqli_fetch_array($result);
+
+    }
+
+    //===== END DATABASE HELPERS =====//
+
+    //===== AUTHENTICATION HELPERS =====//
+
+    //function to get username
+    function get_user_name(){
+	    return isset($_SESSION['username']) ? $_SESSION['username'] : null;
+    }
+
+    //===== AUTHENTICATION HELPERS =====//
+
+    //===== AUTHENTICATION HELPERS =====//
+
 
 	//Function to check if a user has logged in
 	function isLoggedIn(){
-		session_start();
+
+        if(!isset($_SESSION))
+        {
+            session_start();
+        }
+
 		if(isset($_SESSION['user_role'])){
-			
-			session_abort();
+
 			return true;
 			
 		}
-		session_destroy();
+
 		return false;
-		
+
 	}
 
-	
-	//function that returns the ID of a logged in user
+    //function to check whether logged in user is admin
+    function is_admin() {
+
+        global $connection;
+
+        $result = query("SELECT user_role FROM users WHERE user_id = '".$_SESSION['user_id']."'");
+
+        $row = fetchRecords($result);
+
+
+        if($row['user_role'] == 'admin'){
+
+            return true;
+
+        }else {
+
+            return false;
+        }
+
+        return false;
+
+    }
+
+
+
+//function that returns the ID of a logged in user
 	function loggedInUserId(){
 		
 		if(isLoggedIn()){
@@ -43,6 +95,7 @@
 		
 	}
 
+    //===== END AUTHENTICATION HELPERS =====//
 	
 	function userLikedThisPost($post_id){
 		
@@ -118,8 +171,11 @@
 			global $connection; 
 			
 			if(!$connection){
-				
-				session_start();
+
+                if(!isset($_SESSION))
+                {
+                    session_start();
+                }
 				
 				include("../includes/db.php");
 				
@@ -221,27 +277,6 @@
 		return false;
 	}
 
-	
-	
-	//Check if logged in user is an admin
-	function is_admin($username=''){
-		global $connection;
-		
-		if($username == null){
-			return false;
-		}
-		
-		$query = "SELECT user_role FROM users WHERE username = '{$username}' ";
-		$result = mysqli_query($connection, $query);
-		confirmQuery($result);
-		
-		$row = mysqli_fetch_array($result);
-		if($row['user_role'] == 'admin'){
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
 	//Check if username exists on registration
 	function username_exists($username){
@@ -369,14 +404,18 @@
         
 			if(password_verify($password, $db_user_password)){
 
-				session_start();
+                if(!isset($_SESSION))
+                {
+                    session_start();
+                }
 
+                $_SESSION['user_id'] = $db_user_id;
 				$_SESSION['username'] = $db_username;
 				$_SESSION['firstname'] = $db_user_firstname;
 				$_SESSION['lastname'] = $db_user_lastname;
 				$_SESSION['user_role'] = $db_user_role;
 
-				redirect("/cms/admin");
+				redirect("/cms/admin/index.php");
 			}
 			
 			else {

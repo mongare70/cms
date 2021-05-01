@@ -1,7 +1,11 @@
 <!-- output buffering -->
 <?php ob_start(); ?>
-<?php 
-	session_start();
+<?php
+    if(!isset($_SESSION))
+    {
+        session_start();
+    }
+
 	if(empty($_SESSION['user_role']) || $_SESSION['user_role'] == ''){
 		header("Location: ../index.php");
     	die();
