@@ -3,7 +3,7 @@
  The architectural style used in this project is the CRUD.
  The user can create posts, other users can create comments for the posts, other users can also like the posts etc.
 
-# The MySQL statements used for this project are as follows:
+### The MySQL statements used for this project are as follows:
 
 ```js
    CREATE DATABASE cms;
