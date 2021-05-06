@@ -7,6 +7,7 @@
 
 ```js
    CREATE DATABASE cms;
+   USE cms;
    CREATE TABLE categories (cat_id int(3) NOT NULL AUTO_INCREMENT, cat_title varchar(255), PRIMARY KEY (cat_id));
    CREATE TABLE comments (comment_id int(3) NOT NULL AUTO_INCREMENT, comment_post_id int(3), comment_author varchar(255), comment_email varchar(255), comment_content varchar(255), comment_status varchar(255), comment_date date, PRIMARY KEY (comment_id));
    CREATE TABLE likes (id int(11) NOT NULL AUTO_INCREMENT, user_id int(11), post_id int(11), PRIMARY KEY (id));
